@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulasi Energi & Bumi</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; text-align: center; background: #f0f9ff; color: #333; }
+        .container { max-width: 800px; margin: auto; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px Biru 15px rgba(0,0,0,0.1); }
+        #earth { font-size: 100px; transition: all 0.5s; display: inline-block; margin: 20px; }
+        .stats { display: flex; justify-content: space-around; font-weight: bold; margin: 20px 0; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; border: none; border-radius: 8px; transition: 0.3s; margin: 5px; }
+        .btn-fosil { background: #4b5563; color: white; }
+        .btn-alternatif { background: #10b981; color: white; }
+        .btn-fosil:hover { background: #1f2937; }
+        .btn-alternatif:hover { background: #059669; }
+        #message { font-style: italic; color: #ef4444; min-height: 24px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🌍 Simulasi Pemanasan Global</h1>
+    <p>Pilih sumber energi dan lihat apa yang terjadi pada Bumi!</p>
+
+    <div id="earth">🌍</div>
+
+    <div class="stats">
+        <div>Suhu Bumi: <span id="temp">15</span>°C</div>
+        <div>Kadar CO2: <span id="co2">400</span> ppm</div>
+    </div>
+
+    <div id="message"></div>
+
+    <div style="margin-top: 20px;">
+        <button class="btn-fosil" onclick="updateEnv('fosil')">Gunakan Batu Bara/Minyak</button>
+        <button class="btn-alternatif" onclick="updateEnv('alternatif')">Gunakan Panel Surya/Angin</button>
+    </div>
+    
+    <button onclick="resetSim()" style="margin-top: 30px; background: #ddd;">Reset Simulasi</button>
+</div>
+
+<script>
+    let temp = 15;
+    let co2 = 400;
+    const earthEmoji = document.getElementById('earth');
+
+    function updateEnv(type) {
+        if (type === 'fosil') {
+            temp += 0.5;
+            co2 += 20;
+            document.getElementById('message').innerText = "⚠️ Emisi karbon meningkat! Suhu naik.";
+        } else {
+            temp = Math.max(15, temp - 0.2);
+            co2 = Math.max(400, co2 - 5);
+            document.getElementById('message').innerText = "✅ Energi bersih digunakan. Tekanan pada atmosfer berkurang.";
+        }
+        updateUI();
+    }
+
+    function updateUI() {
+        document.getElementById('temp').innerText = temp.toFixed(1);
+        document.getElementById('co2').innerText = co2;
+
+        // Perubahan visual Bumi
+        if (temp > 20) {
+            earthEmoji.innerText = "🥵";
+            document.body.style.background = "#fee2e2";
+        } else if (temp > 17) {
+            earthEmoji.innerText = "😟";
+            document.body.style.background = "#ffedd5";
+        } else {
+            earthEmoji.innerText = "🌍";
+            document.body.style.background = "#f0f9ff";
+        }
+    }
+
+    function resetSim() {
+        temp = 15; co2 = 400;
+        document.getElementById('message').innerText = "";
+        updateUI();
+    }
+</script>
+
+</body>
+</html>
